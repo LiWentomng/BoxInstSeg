@@ -1,19 +1,19 @@
-## BoxInstSeg
-## Introduction
-BoxInstSeg is an open-source toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
-It is built on top of [MMdetection](https://github.com/open-mmlab/mmdetection).
-The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch 1.9)
 
-Welcome the contribution.
+## Introduction
+BoxInstSeg is a toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
+It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
+The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
+
 
 ### Major features
-- **MMdetection feature inheritance**
-
-  This toolbox doesn't change the structure and codes of original MMdetection and the additive codes are under MMdetection logic. Therefore, it inherits all features from MMdetection.
 
 - **Support of instance segmentation with only box annotations**
 
-   We implement multiple  box-supervised instance segmentation methods in this toolbox,(*e.g.* BoxInst, DiscoBox).
+   We implement multiple box-supervised instance segmentation methods in this toolbox,(*e.g.* BoxInst, DiscoBox).
+
+- **MMdetection feature inheritance**
+
+  This toolbox doesn't change the structure and logic of mmdetection. It inherits all features from MMdetection.
 
 ## Model Zoo
 <summary> Supported methods </summary>
@@ -23,18 +23,17 @@ Welcome the contribution.
 - [x] [BoxLevelset (ECCV2022)]()
 - [ ] [Box2Mask (ArXiv2022)]() (To be appear)
 
+<summary> Performance </summary>
+
 ### COCO
-|     method      | Backbone | Models    | config  | AP  | AP_50 | AP_75 | 
-|:---------------:|----------|-----------|:-------:|:---:|:-----:|:-----:|
-|   [BoxInst]()   | R-50     | [model]() | config  |     |       |       |
-|   [BoxInst]()   | R-101    | [model]() | config  |     |       |       |
-|  [DiscoBox]()   | R-50     | [model]() | config  |     |       |       |
-|  [DiscoxBox]()  | R-101    | [model]() | config  |     |       |       | 
-| [BoxLevelset]() | R-50     | [model]() | config  |     |       |       | 
-| [BoxLevelset]() | R-101    | [model]() | config  |     |       |       | 
-| [Box2Mask-C]()  | R-101    | [model]() | config  |     |       |       |   
-| [Box2Mask-T]()  | R-50     | [model]() | config  |     |       |       | 
-| [Box2Mask-T]()  | R-101    | [model]() | config  |     |       |       |    
+|     method      | Backbone | Models    | schedule| config  | AP  | AP_50 | AP_75 | 
+|:---------------:|----------|-----------|:-------:|:-------:|:---:|:-----:|:-----:|
+|   [BoxInst]()   | R-50     | [model]() |   3x    |config  |     |       |       |
+|   [BoxInst]()   | R-101    | [model]() |         |config  |     |       |       |
+|  [DiscoBox]()   | R-50     | [model]() |         |config  |     |       |       |
+|  [DiscoxBox]()  | R-101    | [model]() |         | config |     |       |       |
+| [BoxLevelset]() | R-50     | [model]() |         |config  |     |       |       | 
+| [BoxLevelset]() | R-101    | [model]() |         |config  |     |       |       | 
 
 
 ### Pascal VOC
@@ -47,9 +46,6 @@ Welcome the contribution.
 |  [DiscoxBox]()  | R-101    | [model]() | config  |     |       |       | 
 | [BoxLevelSet]() | R-50     | [model]() | config  |     |       |       | 
 | [BoxLevelSet]() | R-101    | [model]() | config  |     |       |       | 
-| [Box2Mask-C]()  | R-101    | [model]() | config  |     |       |       |
-| [Box2Mask-T]()  | R-50     | [model]() | config  |     |       |       | 
-| [Box2Mask-T]()  | R-101    | [model]() | config  |     |       |       |    
 
 
 ## Installation and Getting Started
@@ -68,13 +64,4 @@ This project is built based on [MMdetection](https://github.com/open-mmlab/mmdet
 
 ## More
 This [repo](https://github.com/LiWentomng/Box-supervised-instance-segmentation) updates the **survey** of _box-supervised instance segmentation_, we highly welcome the user to develop more algorithms in this toolbox.
-
-## Citation
-If you find the projects useful in your research, please consider cite:
-
-
-
-
-
-
 
