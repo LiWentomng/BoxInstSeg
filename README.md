@@ -22,6 +22,8 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 - [x] [DiscoBox (ICCV2021)]()
 - [x] [BoxLevelset (ECCV2022)]()
 
+Multiple pretrained models are coming soon based on the Pascal VOC and COCO.
+
 
 ## Installation and Getting Started
 Please refer to [Installation]() and [Getting Started]() for the details of installation and the basic usage.
