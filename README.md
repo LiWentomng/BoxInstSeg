@@ -19,7 +19,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 <summary> Supported methods </summary>
 
 - [x] [BoxInst (CVPR2021)]()
-- [x] [DiscoBox (ICCV2021)]()
+- [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)]()
 
 **_Multiple pretrained models are coming soon based on the Pascal VOC and COCO and more datasets._**
