@@ -28,12 +28,12 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 ### COCO
 |     method      | Backbone | Models    | schedule| config  | AP  | AP_50 | AP_75 | 
 |:---------------:|----------|-----------|:-------:|:-------:|:---:|:-----:|:-----:|
-|   [BoxInst]()   | R-50     | [model]() |   3x    |config  |     |       |       |
-|   [BoxInst]()   | R-101    | [model]() |         |config  |     |       |       |
-|  [DiscoBox]()   | R-50     | [model]() |         |config  |     |       |       |
-|  [DiscoxBox]()  | R-101    | [model]() |         | config |     |       |       |
-| [BoxLevelset]() | R-50     | [model]() |         |config  |     |       |       | 
-| [BoxLevelset]() | R-101    | [model]() |         |config  |     |       |       | 
+|   [BoxInst]()   | R-50     | [model]   |   3x    |config   |     |       |       |
+|   [BoxInst]()   | R-101    | [model]   |         |config   |     |       |       |
+|  [DiscoBox]()   | R-50     | [model]   |         |config   |     |       |       |
+|  [DiscoxBox]()  | R-101    | [model]   |         |config   |     |       |       |
+| [BoxLevelset]() | R-50     | [model]   |         |config   |     |       |       | 
+| [BoxLevelset]() | R-101    | [model]   |         |config   |     |       |       | 
 
 
 ### Pascal VOC
