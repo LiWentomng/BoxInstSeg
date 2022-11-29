@@ -21,7 +21,6 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 - [x] [BoxInst (CVPR2021)]()
 - [x] [DiscoBox (ICCV2021)]()
 - [x] [BoxLevelset (ECCV2022)]()
-- [ ] [Box2Mask (ArXiv2022)]() (To be appear)
 
 
 ## Installation and Getting Started
