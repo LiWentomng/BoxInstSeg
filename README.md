@@ -26,8 +26,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 
 
 ## Installation and Getting Started
-This is built on the MMdetection (V2.25.0). Please refer to [Installation]() and [Getting Started]() for the details of installation and the basic usage.
-We recommend user to see the detailed instroductions of MMdetection.
+This is built on the MMdetection (V2.25.0). Please refer to [Installation](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md/#Installation) and [Getting Started](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md) for the details of installation and the basic usage.
 
 
 ## License
