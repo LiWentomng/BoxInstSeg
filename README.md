@@ -2,7 +2,7 @@
 ## Introduction
 **BoxInstSeg** is a toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
 It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
-The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
+The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0**)
 
 
 #### Major features
@@ -54,4 +54,6 @@ This project is built based on [MMdetection](https://github.com/open-mmlab/mmdet
 
 ## More
 This [repo](https://github.com/LiWentomng/Box-supervised-instance-segmentation) updates the **survey** of _box-supervised instance segmentation_, we highly welcome the user to develop more algorithms in this toolbox.
+
+**__If this rep is helpful for your work, please give me a star.__**
 
