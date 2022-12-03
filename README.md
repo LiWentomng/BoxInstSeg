@@ -55,5 +55,5 @@ This project is built based on [MMdetection](https://github.com/open-mmlab/mmdet
 ## More
 This [repo](https://github.com/LiWentomng/Box-supervised-instance-segmentation) updates the **survey** of _box-supervised instance segmentation_, we highly welcome the user to develop more algorithms in this toolbox.
 
-**__If this rep is helpful for your work, please give me a star.__**
+**_If this rep is helpful for your work, please give me a star._**
 
