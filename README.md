@@ -9,7 +9,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 
 - **Support of instance segmentation with only box annotations**
 
-   We implement multiple instance segmentation methods with only bounding box in this toolbox,(*e.g.* BoxInst, DiscoBox).
+   We implement multiple box-supervised instance segmentation methods in this toolbox,(*e.g.* BoxInst, DiscoBox).
 
 - **MMdetection feature inheritance**
 
