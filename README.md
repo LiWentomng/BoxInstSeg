@@ -53,7 +53,7 @@ This project is released under the [Apache 2.0 license](LICENSE).
 This project is built based on [MMdetection](https://github.com/open-mmlab/mmdetection) and part of module is borrowed from the original rep of [Adelaidet](https://github.com/aim-uofa/AdelaiDet) and [DiscoBox](https://github.com/NVlabs/DiscoBox).
 
 ## More
-This [repo](https://github.com/LiWentomng/Box-supervised-instance-segmentation) updates the **survey** of _box-supervised instance segmentation_, we highly welcome the user to develop more algorithms in this toolbox.
+- This [repo](https://github.com/LiWentomng/Box-supervised-instance-segmentation) will update the **survey** of _box-supervised instance segmentation_, we highly welcome the user to develop more algorithms in this toolbox.
 
-**_If this rep is helpful for your work, please give me a star._**
+- **_If this rep is helpful for your work, please give me a star._**
 
