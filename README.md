@@ -5,7 +5,7 @@ It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
 The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 
 
-### Major features
+#### Major features
 
 - **Support of instance segmentation with only box annotations**
 
