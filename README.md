@@ -27,7 +27,6 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 |:---------------:|----------|-----------|:-------:|:-------:|:-------:|
 |   BoxInst       | R-50     | model     |   1x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r50_fpn_1x_coco.py)   |  30.6   |
 |   BoxInst       | R-50     | model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r50_fpn_3x_coco.py)   |         |
-|   BoxInst       | R-101    | model     |   3x    |config   |         |
 |   DiscoBox      | R-50     | model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r50_fpn_3x.py)   |  31.7   |
 |   DiscoBox      | R-101    | model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r101_fpn_3x.py)   |  33.1   |
 
