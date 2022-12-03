@@ -18,7 +18,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 ## Model Zoo
 <summary> Supported methods </summary>
 
-- [x] [BoxInst (CVPR2021)]()
+- [x] [BoxInst (CVPR2021)](https://arxiv.org/abs/2012.02310)
 - [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)]()
 
