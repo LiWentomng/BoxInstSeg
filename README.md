@@ -1,6 +1,6 @@
 
 ## Introduction
-BoxInstSeg is a toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
+**BoxInstSeg** is a toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
 It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
 The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 
@@ -9,7 +9,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 
 - **Support of instance segmentation with only box annotations**
 
-   We implement multiple box-supervised instance segmentation methods in this toolbox,(*e.g.* BoxInst, DiscoBox).
+   We implement multiple instance segmentation methods with only bounding box in this toolbox,(*e.g.* BoxInst, DiscoBox).
 
 - **MMdetection feature inheritance**
 
@@ -22,7 +22,21 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9**)
 - [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
 
-**_Multiple pretrained models based on the Pascal VOC and COCO and more datasets are coming soon._**
+### COCO (val)
+|     method      | Backbone | Models    | sched.  |config   | AP      | 
+|:---------------:|----------|-----------|:-------:|:-------:|:-------:|
+|   BoxInst       | R-50     | model     |   1x    |config   |  30.6   |
+|   BoxInst       | R-50     | model     |   3x    |config   |         |
+|   BoxInst       | R-101    | model     |   3x    |config   |         |
+|   DiscoBox      | R-50     | model     |   3x    |config   |  31.7   |
+|   DiscoBox      | R-101    | model     |   3x    |config   |  33.1   |
+
+### Pascal VOC
+|     method      | Backbone | Models    | sched.  |config   | AP      | 
+|:---------------:|----------|-----------|:-------:|:-------:|:-------:|
+|   BoxInst       | R-50     | model     |   3x    |config   |         |
+
+**_Multiple pretrained models based on the Pascal VOC and COCO and more datasets are coming as soon as possible._**
 
 
 ## Installation and Getting Started
