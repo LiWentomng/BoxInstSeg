@@ -1,7 +1,7 @@
 ## Getting Started
 
 
-This page provides basic usage based on MMdetection. For installation instructions, please see [install.md](./install.md).
+This page provides basic usage based on MMdetection (V2.25.0). For installation instructions, please see [install.md](./install.md).
 
 
 # Train a model
@@ -28,8 +28,6 @@ CUDA_VISIBLE_DEVICES=0 python toos/train.py configs/boxinst/boxinst_r50_fpn_1x_c
 Example:
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_train.sh configs/coco/boxinst_r50_fpn_1x_coco.py 8
 ```
-
-
 
 # Inference with pretrained models
 We provide the testing scripts to evaluate the trained models.
