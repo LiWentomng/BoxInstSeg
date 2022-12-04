@@ -26,7 +26,7 @@ model = dict(
         relu_before_extra_convs=True),
     bbox_head=dict(
         type='CondInstBoxHead',
-        num_classes=20,
+        num_classes=80,
         in_channels=256,
         center_sampling=True,
         center_sample_radius=1.5,
@@ -88,8 +88,8 @@ model = dict(
         max_per_img=2000,
         output_segm=False))
 
-dataset_type = 'PascalVOCDataset'
-data_root = '/data/VOC/'
+dataset_type = 'CocoDataset'
+data_root = '/data/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -126,22 +126,22 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/voc_2012_train.json',
-        img_prefix=data_root + 'train/',
+        ann_file=data_root + 'annotations/instances_train2017.json',
+        img_prefix=data_root + 'train2017/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/voc_2012_val.json',
-        img_prefix=data_root + 'val/',
+        ann_file=data_root + 'annotations/instances_val2017.json',
+        img_prefix=data_root + 'val2017/',
         pipeline=test_pipeline),
     test=dict(
-        type=dataset_type,
-        ann_file=data_root + 'annotations/voc_2012_val.json',
-        img_prefix=data_root + 'val/',
-        pipeline=test_pipeline))
+       type=dataset_type,
+       ann_file=data_root + 'annotations/instances_val2017.json',
+       img_prefix=data_root + 'val2017/',
+       pipeline=test_pipeline))
 evaluation = dict(metric=['bbox', 'segm'])
 
-optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=None)
 # learning policy
 lr_config = dict(
@@ -154,4 +154,6 @@ lr_config = dict(
 runner = dict(type='EpochBasedRunner', max_epochs=36)
 evaluation = dict(interval=1, metric=['bbox', 'segm'])
 checkpoint_config = dict(interval=1)
-work_dir = './work_dirs/boxinst_voc_3x'
+work_dir = './work_dirs/boxinst_coco_3x'
+load_from = None
+resume_from = None
