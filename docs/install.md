@@ -1,5 +1,4 @@
 
-\
 ## Environments
 
 - Linux or macOS
@@ -32,8 +31,6 @@
 
     ```shell
     pip install -U openmim
-    
-    #Example in our envs.
     mim install mmcv-full==2.25.0
    ```
 
@@ -55,10 +52,10 @@
     # "-v" means verbose, or more output
     # "-e" means installing a project in editable mode,
 
-    cd mmdet/ops/pairwise #compile for the opeartion using in boxinst
+    cd mmdet/ops/pairwise #compiling for the opeartion using in boxinst
     python setup.py build develop 
 
-    cd mmdet/ops/tree_filter #compile for the opeartion using in boxlevelset
+    cd mmdet/ops/tree_filter #compiling for the opeartion using in boxlevelset
     python setup.py build develop
     ```
 
