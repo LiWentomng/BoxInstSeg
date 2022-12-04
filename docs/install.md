@@ -2,7 +2,7 @@
 ## Environments
 
 - Linux or macOS
-- Python 3.6+  (Python 3.7 in our envs)
+- Python 3.6+  (Python 3.8 in our envs)
 - PyTorch 1.7+ (1.9.0 in our envs)
 - CUDA 9.2+ (CUDA 11.1 in our envs)
 - GCC 5+
@@ -14,7 +14,7 @@
 1. Create a conda virtual environment and activate it.
 
     ```shell
-    conda create -n boxinstseg python=3.7 -y
+    conda create -n boxinstseg python=3.8 -y
     conda activate boxinstseg
     ```
 
