@@ -177,16 +177,6 @@ class BoxSOLOv2Head(BaseModule):
         normal_init(self.solo_mask, std=0.01)
 
     def forward(self, feats, eval=False):
-        feats = [feat.float() for feat in feats]
-        new_feats = self.split_feats(feats)
-        featmap_sizes = [featmap.size()[-2:] for featmap in new_feats]
-        upsampled_size = (featmap_sizes[0][0] * 2, featmap_sizes[0][1] * 2)
-        cate_pred, kernel_pred = multi_apply(self.forward_single, new_feats,
-                                                       list(range(len(self.seg_num_grids))),
-                                                       eval=eval, upsampled_size=upsampled_size)
-        return cate_pred, kernel_pred
-
-    def forward(self, feats, eval=False):
 
         feats = [feat.float() for feat in feats]
         new_feats = self.split_feats(feats)
