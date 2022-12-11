@@ -21,7 +21,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 - [x] [BoxInst (CVPR2021)](https://arxiv.org/abs/2012.02310)
 - [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
-- [ ] Box2Mask (to be appear)
+- [ ] [Box2Mask](https://arxiv.org/pdf/2212.01579.pdf) (to be released)
 
 ### COCO (val)
 |     method      | Backbone | GPUs| Models    | sched.  |config   | AP (this rep)     | AP(original rep/paper) |
@@ -32,6 +32,8 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 |   BoxInst       | R-101     |  8  | [model](https://drive.google.com/file/d/1tlXLL5Ba9_o5V7zn18KZPCIyEJdpZFV1/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_coco.py)   |  33.1   | 33.0   |
 |   DiscoBox      | R-50     |  8 |model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r50_fpn_3x.py)   |      |   |
 |   DiscoBox      | R-101    |  8  |model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r101_fpn_3x.py)   |      |   |
+| Box2Mask-T      | R-50     |  8  |model     |   50e   | config |  |  |
+| Box2Mask-T      | R-101     |  8  |model     |   50e   | config |  |  |
 
 ### Pascal VOC
 |     method      | Backbone | Models    | sched.  |config   | AP      | 
