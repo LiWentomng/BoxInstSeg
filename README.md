@@ -35,7 +35,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 | Box2Mask-T      | R-50     |  8  |model     |   50e   | config |  |  |
 | Box2Mask-T      | R-101     |  8  |model     |   50e   | config |  |  |
 
-The above models are trained with `ms` to make a fair performance comparison.
+The above models are trained with `ms` to make a performance comparison.
 
 ### Pascal VOC
 |     method      | Backbone | Models    | sched.  |config   | AP      | 
