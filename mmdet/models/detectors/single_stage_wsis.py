@@ -1,17 +1,13 @@
-# ---------------------------------------------------------------
-# Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
-#
-# This work is licensed under the NVIDIA Source Code License
-# for DiscoBox. To view a copy of this license, see the LICENSE file.
-# ---------------------------------------------------------------
 
 import torch.nn as nn
 import torch
 import numpy as np
-from mmdet.core import bbox2result
+import warnings
 from .. import builder
-from ..builder import DETECTORS, build_backbone, build_head, build_neck
+from ..builder import DETECTORS
 from .base import BaseDetector
+from collections import OrderedDict
+
 from mmcv.runner import auto_fp16
 
 
@@ -27,27 +23,22 @@ class SingleStageWSInsDetector(BaseDetector):
                  test_cfg=None,
                  pretrained=None,
                  init_cfg=None):
-
         if pretrained:
             warnings.warn('DeprecationWarning: pretrained is deprecated, '
                           'please use "init_cfg" instead')
             backbone.pretrained = pretrained
-
         super(SingleStageWSInsDetector, self).__init__(init_cfg=init_cfg)
         self.backbone = builder.build_backbone(backbone)
         if neck is not None:
-            self.neck = build_neck(neck)
+            self.neck = builder.build_neck(neck)
         if mask_feat_head is not None:
-            self.mask_feat_head = build_head(mask_feat_head)
-        if bbox_head is not None:
-            self.bbox_head = build_head(bbox_head)
+            self.mask_feat_head = builder.build_head(mask_feat_head)
 
+        self.bbox_head = builder.build_head(bbox_head)
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
-
         self.cnt = 0
         self.avg_loss_ins = 2
-
 
     def extract_feat(self, img):
         x = self.backbone(img)
@@ -67,7 +58,6 @@ class SingleStageWSInsDetector(BaseDetector):
                       gt_labels,
                       gt_bboxes_ignore=None,
                       gt_masks=None):
-
         self.cnt += 1
         x = self.extract_feat(img)
         outs = self.bbox_head(x)
@@ -78,7 +68,7 @@ class SingleStageWSInsDetector(BaseDetector):
         loss_inputs = outs + (mask_feat_pred, gt_bboxes, gt_labels, gt_masks, img_metas, self.train_cfg)
         losses = self.bbox_head.loss(
             *loss_inputs, img=img, gt_bboxes_ignore=gt_bboxes_ignore,
-            use_ts_loss=self.avg_loss_ins < 0.4)
+            use_loss_ts=self.avg_loss_ins<0.4)
         self.avg_loss_ins = self.avg_loss_ins * 0.99 + float(losses['loss_ins']) * 0.01
         return losses
 
@@ -94,9 +84,8 @@ class SingleStageWSInsDetector(BaseDetector):
         format_results_list = []
         for results in results_list:
             format_results_list.append(self.format_results(results))
-
         return format_results_list
-
+    
     def format_results(self, results):
         bbox_results = [[] for _ in range(self.bbox_head.num_classes)]
         mask_results = [[] for _ in range(self.bbox_head.num_classes)]
@@ -113,7 +102,6 @@ class SingleStageWSInsDetector(BaseDetector):
         bbox_results = [np.array(bbox_result) if len(bbox_result) > 0 else np.zeros((0, 5)) for bbox_result in bbox_results]
 
         return bbox_results, (mask_results, score_results)
-
 
     def aug_test(self, imgs, img_metas, rescale=False):
         raise NotImplementedError
@@ -135,8 +123,13 @@ class SingleStageWSInsTeacherDetector(SingleStageWSInsDetector):
         """
         if teacher_momentum is None:
             teacher_momentum = self.teacher_momentum
-        for param_q, param_k in zip(cur_model.parameters(), self.parameters()):
-            param_k.data = param_k.data * teacher_momentum + param_q.data * (1. - teacher_momentum)
+        cur_state_dict = cur_model.state_dict()
+        self_state_dict = self.state_dict()
+        weight_keys = list(cur_state_dict.keys())
+        fed_state_dict = OrderedDict()
+        for key in weight_keys:
+            fed_state_dict[key] = cur_state_dict[key]* (1. - teacher_momentum)+self_state_dict[key]* teacher_momentum
+        self.load_state_dict(fed_state_dict)
 
 @DETECTORS.register_module()
 class SingleStageWSInsTSDetector(SingleStageWSInsDetector):
@@ -150,14 +143,18 @@ class SingleStageWSInsTSDetector(SingleStageWSInsDetector):
                  test_cfg=None,
                  pretrained=None,
                  init_cfg=None):
+        if pretrained:
+            warnings.warn('DeprecationWarning: pretrained is deprecated, '
+                          'please use "init_cfg" instead')
+            backbone.pretrained = pretrained
         super(SingleStageWSInsTSDetector, self).__init__(backbone, neck, bbox_head, mask_feat_head,
-                                                         train_cfg, test_cfg, pretrained, init_cfg=init_cfg)
+                                                         train_cfg, test_cfg, pretrained, init_cfg)
 
         self.use_ind_teacher = bbox_head['loss_ts']['use_ind_teacher']
         if self.use_ind_teacher:
             self.tsw = SingleStageWSInsTeacherDetectorWrapper(
                             SingleStageWSInsTeacherDetector(backbone, neck, bbox_head, mask_feat_head,
-                                                            train_cfg, test_cfg, pretrained))
+                                                            train_cfg, test_cfg, pretrained, init_cfg))
             self.tsw.teacher.eval()
             self.tsw.teacher.teacher_momentum = bbox_head['loss_ts']['momentum']
         self.use_corr = bbox_head.get('loss_corr', None) is not None
@@ -192,7 +189,6 @@ class SingleStageWSInsTSDetector(SingleStageWSInsDetector):
             self.tsw.teacher.momentum_update(self)
 
         # Not sure why the previous flip doesn't work
-
         student_x = self.extract_feat(img)
         student_outs = self.bbox_head(student_x)
         _, s_kernel_preds = student_outs
@@ -243,4 +239,5 @@ class SingleStageWSInsTSDetector(SingleStageWSInsDetector):
 
     def aug_test(self, imgs, img_metas, rescale=False):
         raise NotImplementedError
+
 

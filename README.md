@@ -30,7 +30,7 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 |   BoxInst       | R-50     |  8  | [model](https://drive.google.com/drive/folders/1dbBM6EMA_8lFnrMzHCAV4X7ecxYzjl4w?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r50_fpn_3x_coco.py)   |  32.1   |  31.8  |
 |   BoxInst       | R-101     |  8  | [model](https://drive.google.com/drive/folders/1RCFqb15bVlNaI7AxKerP6hRmJ8AnexKN?usp=sharing)     |   1x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_1x_coco.py)   |  32.0   |  32.2  |
 |   BoxInst       | R-101     |  8  | [model](https://drive.google.com/file/d/1tlXLL5Ba9_o5V7zn18KZPCIyEJdpZFV1/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_coco.py)   |  33.1   | 33.0   |
-|   DiscoBox      | R-50     |  8 |model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r50_fpn_3x.py)   |      |   |
+|   DiscoBox      | R-50     |  8 | [model](https://drive.google.com/file/d/1ifhmjXbFCBsn6wLBeOM6BWOm11LDmecr/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r50_fpn_3x.py)   |   32.2 (w ms)  |  31.4(wo ms) |
 |   DiscoBox      | R-101    |  8  |model     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r101_fpn_3x.py)   |      |   |
 | Box2Mask-T      | R-50     |  8  |model     |   50e   | config |  |  |
 | Box2Mask-T      | R-101     |  8  |model     |   50e   | config |  |  |

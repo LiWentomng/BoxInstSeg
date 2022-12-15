@@ -1,4 +1,3 @@
-
 fp16 = dict(loss_scale=512.)
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
                     std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -91,7 +90,7 @@ model = dict(
             out_channels=128,
             start_level=0,
             end_level=3,
-            mask_feat_channels=256,
+            num_classes=256,
             norm_cfg=dict(type='GN', num_groups=32, requires_grad=True)),
     train_cfg=dict(),
     test_cfg=dict(

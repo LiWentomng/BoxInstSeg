@@ -1,27 +1,17 @@
-# ---------------------------------------------------------------
-# Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
-#
-# This work is licensed under the NVIDIA Source Code License
-# for DiscoBox. To view a copy of this license, see the LICENSE file.
-# ---------------------------------------------------------------
-
 import mmcv
 import torch
 import cv2
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.cnn import normal_init
-from mmdet.core import InstanceData, multi_apply, mask_matrix_nms
+from mmdet.core import multi_apply, InstanceData, mask_matrix_nms
 from mmcv.ops.roi_align import RoIAlign
 from mmcv import tensor2imgs
+from mmcv.runner import BaseModule
 from mmcv.runner.fp16_utils import force_fp32
 from ..builder import build_loss, HEADS
-from mmcv.runner import BaseModule
 from torch.cuda.amp import autocast
-
-from mmcv.cnn import bias_init_with_prob, ConvModule
+from mmcv.cnn import ConvModule
 import numpy as np
-
 
 def relu_and_l2_norm_feat(feat, dim=1):
     feat = F.relu(feat, inplace=True)
@@ -78,7 +68,6 @@ class ObjectFactory:
 
 class ObjectElements:
 
-
     def __init__(self, size=100, img_size=56, feat_size=28, mask_size=56, n_channel=256, device='cpu', category=None):
         self.mask = torch.zeros(size, mask_size, mask_size).to(device).to(device)
         self.feature = torch.zeros(size, n_channel, feat_size, feat_size).to(device)
@@ -87,12 +76,10 @@ class ObjectElements:
         self.category = int(category)
         self.ptr = 0
 
-
     def get_box_area(self):
         box = self.box
         area = (box[:, 2] - box[:, 0]) * (box[:, 3] - box[:, 1])
         return area
-
 
     def get_category(self):
         return self.category
@@ -155,7 +142,6 @@ class ObjectQueues:
         self.ratio_range = ratio_range
         self.max_retrieval_objs = max_retrieval_objs
 
-
     def append(self, class_idx, idx, feature, mask, box, img=None, device='cpu'):
         with torch.no_grad():
             if self.queues[class_idx] is None:
@@ -184,7 +170,6 @@ class ObjectQueues:
                 create_new_gpu_bank = False
             return create_new_gpu_bank
 
-
     def cal_fg_iou(self, qobjs, kobjs):
         # return the min value of
         # foreground IoU and background IoU
@@ -193,13 +178,11 @@ class ObjectQueues:
         fiou = (maskA * maskB).sum([1, 2]) / ((maskA + maskB) >= 1).float().sum([1, 2])
         return fiou
 
-
     def cal_bg_iou(self, qobjs, kobjs):
         maskA, maskB = qobjs.get_mask(), kobjs.get_mask()
         maskB = maskB.to(maskA)
         biou = ((1 - maskA) * (1 - maskB)).sum([1, 2]) / ((2 - maskA - maskB) >= 1).float().sum([1, 2])
         return biou
-
 
     def cal_appear_identity_sim(self, qobjs, kobjs):
         f0 = qobjs.get_feature()
@@ -215,13 +198,11 @@ class ObjectQueues:
         sim = (f0 * f1 * mask0.unsqueeze(1) * mask1.unsqueeze(1)).sum([1, 2, 3]) / ((mask0 * mask1).sum([1, 2]) + 1e-6)
         return sim
 
-
     def cal_shape_ratio(self, qobj, kobjs):
         ratio0 = qobj.get_ratio().unsqueeze(1)
         ratio1 = kobjs.get_ratio().unsqueeze(0)
         ratio1 = ratio1.to(ratio0)  # might be in cpu
         return ratio0 / ratio1
-
 
     def get_similar_obj(self, qobj: ObjectElements):
         with torch.no_grad():
@@ -248,7 +229,6 @@ class ObjectQueues:
 
 class SemanticCorrSolver:
 
-
     def __init__(self, exp, eps, gaussian_filter_size, low_score, num_iter, num_smooth_iter, dist_kernel):
         self.exp = exp
         self.eps = eps
@@ -261,7 +241,6 @@ class SemanticCorrSolver:
         self.pairwise = None
         self.dist_kernel = dist_kernel
         self.ncells = 8192
-
 
     def generate_gaussian_filter(self, size=3):
         r"""Returns 2-dimensional gaussian filter"""
@@ -278,7 +257,6 @@ class SemanticCorrSolver:
         gaussian = gaussian / gaussian.sum()
 
         return gaussian
-
 
     def perform_sinkhorn(self, a, b, M, reg, stopThr=1e-3, numItermax=100):
         # init data
@@ -305,7 +283,6 @@ class SemanticCorrSolver:
         T = u.unsqueeze(2) * K * v.unsqueeze(1)
         # del u, K, v
         return T
-
 
     def appearance_similarityOT(self, m0, m1, sim):
         r"""Semantic Appearance Similarity"""
@@ -342,7 +319,6 @@ class SemanticCorrSolver:
 
         return PI
 
-
     def build_hspace(self, src_imsize, trg_imsize, ncells):
         r"""Build Hough space where voting is done"""
         hs_width = src_imsize[0] + trg_imsize[0]
@@ -352,7 +328,6 @@ class SemanticCorrSolver:
         nbins_y = int(hs_height / hs_cellsize) + 1
 
         return nbins_x, nbins_y, hs_cellsize
-
 
     def receptive_fields(self, rfsz, feat_size):
         r"""Returns a set of receptive fields (N, 4)"""
@@ -370,7 +345,6 @@ class SemanticCorrSolver:
         box = box.unsqueeze(0)
 
         return box
-
 
     def pass_message(self, T, shape):
         T = T.view(T.shape[0], shape[0], shape[1], shape[0], shape[1])
@@ -391,7 +365,6 @@ class SemanticCorrSolver:
         # del pairwise, count
 
         return T
-
 
     def solve(self, qobjs, kobjs, f0):
         r"""Regularized Hough matching"""
@@ -446,10 +419,10 @@ class DiscoBoxMaskFeatHead(BaseModule):
                  out_channels,
                  start_level,
                  end_level,
-                 mask_feat_channels,
+                 num_classes,
                  conv_cfg=None,
                  norm_cfg=None,
-                 init_cfg=None):
+                 init_cfg=[dict(type='Normal', layer='Conv2d', std=0.01)]):
         super(DiscoBoxMaskFeatHead, self).__init__(init_cfg=init_cfg)
 
         self.in_channels = in_channels
@@ -457,7 +430,7 @@ class DiscoBoxMaskFeatHead(BaseModule):
         self.start_level = start_level
         self.end_level = end_level
         assert start_level >= 0 and end_level >= start_level
-        self.mask_feat_channels = mask_feat_channels
+        self.num_classes = num_classes
         self.conv_cfg = conv_cfg
         self.norm_cfg = norm_cfg
         self.fp16_enabled = False
@@ -516,19 +489,12 @@ class DiscoBoxMaskFeatHead(BaseModule):
         self.conv_pred = nn.Sequential(
             ConvModule(
                 self.out_channels,
-                self.mask_feat_channels,
+                self.num_classes,
                 1,
                 padding=0,
                 conv_cfg=self.conv_cfg,
                 norm_cfg=self.norm_cfg),
         )
-
-
-    def init_weights(self):
-        super(DiscoBoxMaskFeatHead, self).init_weights()
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                normal_init(m, std=0.01)
 
     @autocast()
     def forward(self, inputs):
@@ -553,7 +519,6 @@ class DiscoBoxMaskFeatHead(BaseModule):
         feature_pred = self.conv_pred(feature_add_all_level)
         return feature_pred
 
-
 def center_of_mass(bitmasks):
     _, h, w = bitmasks.size()
     ys = torch.arange(0, h, dtype=torch.float32, device=bitmasks.device)
@@ -565,7 +530,6 @@ def center_of_mass(bitmasks):
     center_x = m10 / m00
     center_y = m01 / m00
     return center_x, center_y
-
 
 def points_nms(heat, kernel=2):
     # kernel must be 2
@@ -710,7 +674,15 @@ class DiscoBoxSOLOv2Head(BaseModule):
                  norm_cfg=None,
                  use_dcn_in_tower=False,
                  type_dcn=None,
-                 init_cfg=None):
+                 init_cfg=dict(
+                    type='Normal', 
+                    layer='Conv2d', 
+                    std=0.01,
+                    override=dict(
+                        type='Normal',
+                        name='solo_cate',
+                        std=0.01,
+                        bias_prob=0.01))):
         super(DiscoBoxSOLOv2Head, self).__init__(init_cfg=init_cfg)
         self.fp16_enabled = False
         self.num_classes = num_classes
@@ -823,16 +795,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
 
         self.solo_kernel = nn.Conv2d(
             self.seg_feat_channels, self.kernel_out_channels, 3, padding=1)
-
-    def init_weights(self):
-        super(DiscoBoxSOLOv2Head, self).init_weights()
-        for m in self.cate_convs:
-            normal_init(m.conv, std=0.01)
-        for m in self.kernel_convs:
-            normal_init(m.conv, std=0.01)
-        bias_cate = bias_init_with_prob(0.01)
-        normal_init(self.solo_cate, std=0.01, bias=bias_cate)
-        normal_init(self.solo_kernel, std=0.01)
 
     def forward(self, feats, eval=False):
         feats = [feat.float() for feat in feats]
@@ -1301,7 +1263,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
         loss_corr = []
 
         # Mean Field Init
-
         mean_fields = [MeanField(color_feat.unsqueeze(0), alpha0=self.alpha0,
                                  theta0=self.theta0, theta1=self.theta1, theta2=self.theta2,
                                  iter=self.crf_max_iter, kernel_size=self.mkernel, base=self.crf_base) \
@@ -1329,7 +1290,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
 
             # pairwise loss
             # crf
-
             if use_loss_ts:
                 enlarged_target = F.max_pool2d(target.float().unsqueeze(1), kernel_size=3, stride=1, padding=1).squeeze(1).byte()
                 for img_idx in range(len(mean_fields)):
@@ -1399,7 +1359,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
             loss_cate=loss_cate,
             loss_corr=loss_corr)
 
-    #@autocast(enabled=False)
     def best_target_single(self,
                            gt_bboxes_raw,
                            gt_labels_raw,
@@ -1480,9 +1439,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
             grid_order_list.append(grid_order)
         return ins_label_list, cate_label_list, ins_ind_label_list, grid_order_list
 
-
-
-    #@autocast(enabled=False)
     def solov2_target_single(self,
                            gt_bboxes_raw,
                            gt_labels_raw,
@@ -1572,40 +1528,34 @@ class DiscoBoxSOLOv2Head(BaseModule):
             grid_order_list.append(grid_order)
         return ins_label_list, cate_label_list, ins_ind_label_list, grid_order_list
 
-    #@autocast(enabled=False)
     def get_seg(self, cate_preds, kernel_preds, seg_pred, img_metas, cfg, rescale=None, img=None):
-
-        assert len(kernel_preds) == len(cate_preds)
         num_levels = len(cate_preds)
         featmap_size = seg_pred.size()[-2:]
 
         result_list = []
         for img_id in range(len(img_metas)):
             cate_pred_list = [
-                cate_preds[i][img_id].view(-1, self.cate_out_channels).detach()
-                for i in range(num_levels)
+                cate_preds[i][img_id].view(-1, self.cate_out_channels).detach() for i in range(num_levels)
             ]
-            # seg_pred_list = seg_pred[img_id, ...].unsqueeze(0)
-            seg_pred_list = seg_pred[[img_id]]
+            seg_pred_list = seg_pred[img_id, ...].unsqueeze(0)
             kernel_pred_list = [
-                kernel_preds[i][img_id].permute(1, 2, 0).view(
-                    -1, self.kernel_out_channels).detach() for i in range(num_levels)
+                kernel_preds[i][img_id].permute(1, 2, 0).view(-1, self.kernel_out_channels).detach()
+                                for i in range(num_levels)
             ]
 
             cate_pred_list = torch.cat(cate_pred_list, dim=0)
             kernel_pred_list = torch.cat(kernel_pred_list, dim=0)
 
             result = self.get_seg_single(
-                cate_pred_list,
-                seg_pred_list,
+                cate_pred_list, 
+                seg_pred_list, 
                 kernel_pred_list,
-                featmap_size,
+                featmap_size, 
                 img_meta=img_metas[img_id],
                 cfg=cfg)
             result_list.append(result)
         return result_list
 
-    #@autocast(enabled=False)
     @autocast()
     def get_seg_single(self,
                        cate_preds,
@@ -1613,10 +1563,9 @@ class DiscoBoxSOLOv2Head(BaseModule):
                        kernel_preds,
                        featmap_size,
                        img_meta,
-                       cfg=None):
+                       cfg):
 
         def empty_results(results, cls_scores):
-            """Generate a empty results."""
             results.scores = cls_scores.new_ones(0)
             results.masks = cls_scores.new_zeros(0, *results.ori_shape[:2])
             results.labels = cls_scores.new_ones(0)
@@ -1635,7 +1584,6 @@ class DiscoBoxSOLOv2Head(BaseModule):
         # process.
         inds = (cate_preds > cfg.score_thr)
         cate_scores = cate_preds[inds]
-
         if len(cate_scores) == 0:
             return empty_results(results, cate_scores)
 
@@ -1647,6 +1595,7 @@ class DiscoBoxSOLOv2Head(BaseModule):
         # trans vector.
         size_trans = cate_labels.new_tensor(self.seg_num_grids).pow(2).cumsum(0)
         strides = kernel_preds.new_ones(size_trans[-1])
+
         n_stage = len(self.seg_num_grids)
         strides[:size_trans[0]] *= self.strides[0]
         for ind_ in range(1, n_stage):
@@ -1657,6 +1606,7 @@ class DiscoBoxSOLOv2Head(BaseModule):
         I, N = kernel_preds.shape
         kernel_preds = kernel_preds.view(I, N, 1, 1)
         seg_preds = F.conv2d(seg_preds, kernel_preds, stride=1).squeeze(0).sigmoid()
+
         # mask.
         seg_masks = seg_preds > cfg.mask_thr
         sum_masks = seg_masks.sum((1, 2)).float()
@@ -1678,29 +1628,33 @@ class DiscoBoxSOLOv2Head(BaseModule):
 
         # Matrix NMS
         scores, labels, _, keep_inds  = mask_matrix_nms(
-            seg_masks,
-            cate_labels,
+            seg_masks, 
+            cate_labels, 
             cate_scores,
             filter_thr=cfg.filter_thr,
             nms_pre=cfg.nms_pre,
             max_num=cfg.max_per_img,
-            kernel=cfg.kernel,
-            sigma=cfg.sigma,
+            kernel=cfg.kernel, 
+            sigma=cfg.sigma, 
             mask_area=sum_masks)
 
         seg_preds = seg_preds[keep_inds]
+
+        if seg_preds.shape[0] == 0:
+            return empty_results(results, cate_scores)
+
         seg_preds = F.interpolate(seg_preds.unsqueeze(0),
                                   size=upsampled_size_out,
                                   mode='bilinear')[:, :, :h, :w]
-        seg_masks = F.interpolate(seg_preds,
-                                  size=ori_shape[:2],
-                                  mode='bilinear').squeeze(0)
 
-        masks = seg_masks > cfg.mask_thr
+        seg_masks = F.interpolate(seg_preds,
+                               size=ori_shape[:2],
+                               mode='bilinear').squeeze(0)
+
+        masks = seg_masks > cfg.mask_thr ##
 
         results.masks = masks
         results.labels = labels
         results.scores = scores
-
+        
         return results
-

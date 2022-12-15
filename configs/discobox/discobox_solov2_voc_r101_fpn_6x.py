@@ -1,4 +1,3 @@
-
 fp16 = dict(loss_scale=512.)
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -75,7 +74,7 @@ model = dict(
     )
 
 # dataset settings
-dataset_type = 'VOCCocoformatDataset'
+dataset_type = 'PascalVOCDataset'
 data_root = '/data/VOC/'
 train_pipeline = [
     dict(type='LoadImageFromFile'),

@@ -1,4 +1,3 @@
-
 fp16 = dict(loss_scale=512.)
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -100,7 +99,7 @@ model = dict(
             out_channels=128,
             start_level=0,
             end_level=3,
-            mask_feat_channels=256,
+            num_classes=256,
             norm_cfg=dict(type='GN', num_groups=32, requires_grad=True)),
     )
 
@@ -176,11 +175,11 @@ log_config = dict(
 # yapf:enable
 # runtime settings
 runner = dict(type='EpochBasedRunner', max_epochs=36)
-evaluation = dict(interval=2, metric=['bbox', 'segm'])
+evaluation = dict(interval=1, metric=['bbox', 'segm'])
 device_ids = range(8)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/discobox_r50_fpn_3x'
+work_dir = './work_dirs/discobox_coco_r50_3x'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]
