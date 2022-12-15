@@ -15,6 +15,10 @@ The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0*
 
   This toolbox doesn't change the structure and logic of mmdetection. It inherits all features from MMdetection.
 
+
+https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-bbd6-b26d07c9b404.mp4
+
+
 ## Model Zoo
 <summary> Supported methods </summary>
 
