@@ -28,6 +28,8 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
 - [ ] [Box2Mask](https://arxiv.org/pdf/2212.01579.pdf) (to be released)
 
+**_More  models and datasets are under preparation, which are coming as soon as possible._**
+
 ### COCO (val)
 |     method      | Backbone | GPUs| Models    | sched.  |config   | AP (this rep)     | AP(original rep/paper) |
 |:---------------:|----------|-----------|-----------|:-------:|:-------:|:-------:|:-------:|
@@ -43,11 +45,9 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 The above models are trained with `ms` to make a performance comparison.
 
 ### Pascal VOC
-|     method      | Backbone | Models    | sched.  |config   | AP      | 
-|:---------------:|----------|-----------|:-------:|:-------:|:-------:|
-|   BoxInst       | R-50     | model     |   3x    |config   |         |
-
-**_Multiple pretrained models based on the Pascal VOC and COCO and more datasets are coming as soon as possible._**
+|     method      | Backbone | Models    | sched.  |config   |
+|:---------------:|----------|-----------|:-------:|:-------:|
+|   BoxInst       | R-50     | model     |   3x    |config   | 
 
 
 ## Installation and Getting Started
