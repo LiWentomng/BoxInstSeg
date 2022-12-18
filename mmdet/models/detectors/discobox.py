@@ -4,7 +4,8 @@
 # This work is licensed under the NVIDIA Source Code License
 # for DiscoBox. To view a copy of this license, see the LICENSE file.
 # ---------------------------------------------------------------
-from .single_stage_wsis import SingleStageWSInsDetector, SingleStageWSInsTSDetector
+
+from .single_stage_ts import SingleStageWSInsDetector, SingleStageWSInsTSDetector
 from ..builder import DETECTORS
 import mmcv
 import numpy as np
