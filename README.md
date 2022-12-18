@@ -48,7 +48,9 @@ The above models are trained with `ms` to make a performance comparison.
 |     method      | Backbone | Models    | sched.  |config   |
 |:---------------:|----------|-----------|:-------:|:-------:|
 |   BoxInst       | R-50     | model     |   3x    |config   | 
-
+|   BoxInst       | R-101     | model     |   3x    |config   | 
+|   DiscoBox       | R-50     | model     |   3x    |config   | 
+|   DiscoBox       | R-101     | model     |   3x    |config   | 
 
 ## Installation and Getting Started
 This is built on the MMdetection (V2.25.0). Please refer to [Installation](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/install.md) and [Getting Started](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/get_started.md) for the details of installation and basic usage. We also recommend the user to refer the office [introduction](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md/#Installation) of MMdetection.
