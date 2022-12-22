@@ -45,14 +45,14 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 The above models are trained with `ms` to make a performance comparison.
 
 ### Pascal VOC 
-|     method      | Backbone | Models    | sched.  |config   | AP | AP_50|  AP_75|
-|:---------------:|----------|-----------|:-------:|:-------:|:-------:|:-------:|:-------:|
-|   BoxInst       | R-50     | [model](https://drive.google.com/drive/folders/18ZK3uqAtcRx9r-Ci45Bg358LA4eFGBsY?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r50_fpn_3x_voc.py)   |  32.0    | 60.2 | 30.2 |
-|   BoxInst       | R-101     | [model](https://drive.google.com/drive/folders/1QA9bSUnwtJ-pyuj_4pqHA9X64g3PbisT?usp=sharing)     |   3x    |[config]()   |   34.2  | 62.4| 33.2 |
-|   DiscoBox       | R-50     | [model](https://drive.google.com/file/d/1uNO_YVhGN5Kwbc8fjjtFCxULnRclZ_IW/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r50_fpn_3x.py)   |   32.9  | 61.0   |  31.5 |
-|   DiscoBox       | R-101     | [model](https://drive.google.com/drive/folders/1JChdGB0mBjC4ypNuNxbCuIdjj4YY7GBv?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r101_fpn_3x.py)   |  34.6  |63.0  | 33.0 |
-|   Box2Mask-T      | R-50   | model     |   50e   |config   |     |  |  |
-|   Box2Mask-T      | R-101     | model |   50e    |config   |   |   |   |
+|     method      | Backbone | GPUs | Models    | sched.  |config   | AP | AP_50|  AP_75|
+|:---------------:|----------|-----------|-----------|:-------:|:-------:|:-------:|:-------:|:-------:|
+|   BoxInst       | R-50     |4 |  [model](https://drive.google.com/drive/folders/18ZK3uqAtcRx9r-Ci45Bg358LA4eFGBsY?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r50_fpn_3x_voc.py)   |  32.0    | 60.2 | 30.2 |
+|   BoxInst       | R-101     | 4| [model](https://drive.google.com/drive/folders/1QA9bSUnwtJ-pyuj_4pqHA9X64g3PbisT?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_voc.py)   |   34.2  | 62.4| 33.2 |
+|   DiscoBox       | R-50     | 4|[model](https://drive.google.com/file/d/1uNO_YVhGN5Kwbc8fjjtFCxULnRclZ_IW/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r50_fpn_3x.py)   |   32.9  | 61.0   |  31.5 |
+|   DiscoBox       | R-101     | 4| [model](https://drive.google.com/drive/folders/1JChdGB0mBjC4ypNuNxbCuIdjj4YY7GBv?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r101_fpn_3x.py)   |  34.6  |63.0  | 33.0 |
+|   Box2Mask-T      | R-50   | 4 |model     |   50e   |config   |     |  |  |
+|   Box2Mask-T      | R-101     | 4 |model |   50e    |config   |   |   |   |
 
 ## Installation and Getting Started
 This is built on the MMdetection (V2.25.0). Please refer to [Installation](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/install.md) and [Getting Started](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/get_started.md) for the details of installation and basic usage. We also recommend the user to refer the office [introduction](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md/#Installation) of MMdetection.
