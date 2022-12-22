@@ -1,18 +1,9 @@
+
 fp16 = dict(loss_scale=512.)
-img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
+                    std=[58.395, 57.12, 57.375], to_rgb=True)
 model = dict(
     type='DiscoBoxSOLOv2',
-    pretrained='torchvision://resnet101',
-    train_cfg=dict(),
-    test_cfg = dict(
-        nms_pre=500,
-        score_thr=0.1,
-        mask_thr=0.4,
-        update_thr=0.05,
-        kernel='gaussian',  # gaussian/linear
-        sigma=2.0,
-        max_per_img=100),
     backbone=dict(
         type='ResNet',
         depth=101,
@@ -62,7 +53,38 @@ model = dict(
             use_sigmoid=True,
             gamma=2.0,
             alpha=0.25,
-            loss_weight=1.0)),
+            loss_weight=1.0),
+        loss_corr=dict(
+            type='InfoNCE',
+            loss_weight=1,
+            corr_exp=1.0,
+            corr_eps=0.05,
+            gaussian_filter_size=3,
+            low_score=0.3,
+            corr_num_iter=10,
+            corr_num_smooth_iter=1,
+            save_corr_img=False,
+            dist_kernel=9,
+            obj_bank=dict(
+                img_norm_cfg=img_norm_cfg,
+                len_object_queues=100,
+                fg_iou_thresh=0.7,
+                bg_iou_thresh=0.7,
+                ratio_range=[0.9, 1.2],
+                appear_thresh=0.7,
+                min_retrieval_objs=2,
+                max_retrieval_objs=5,
+                feat_height=7,
+                feat_width=7,
+                mask_height=28,
+                mask_width=28,
+                img_height=200,
+                img_width=200,
+                min_size=32,
+                num_gpu_bank=20,
+            )
+        )
+    ),
     mask_feat_head=dict(
             type='DiscoBoxMaskFeatHead',
             in_channels=256,
@@ -71,7 +93,15 @@ model = dict(
             end_level=3,
             num_classes=256,
             norm_cfg=dict(type='GN', num_groups=32, requires_grad=True)),
-    )
+    train_cfg=dict(),
+    test_cfg=dict(
+        nms_pre=500,
+        score_thr=0.1,
+        mask_thr=0.5,
+        filter_thr=0.05,
+        kernel='gaussian',  # gaussian/linear
+        sigma=2.0,
+        max_per_img=100))
 
 # dataset settings
 dataset_type = 'PascalVOCDataset'
@@ -124,8 +154,9 @@ data = dict(
         ann_file=data_root + 'annotations/voc_2012_val.json',
         img_prefix=data_root + 'val/',
         pipeline=test_pipeline))
+
 # optimizer
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # learning policy
 lr_config = dict(
@@ -133,8 +164,8 @@ lr_config = dict(
     warmup='linear',
     warmup_iters=2000,
     warmup_ratio=0.01,
-    step=[54, 66])
-checkpoint_config = dict(interval=12)
+    step=[33, 35])
+checkpoint_config = dict(interval=2)
 # yapf:disable
 log_config = dict(
     interval=50,
@@ -144,12 +175,12 @@ log_config = dict(
     ])
 # yapf:enable
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=72)
+runner = dict(type='EpochBasedRunner', max_epochs=36)
 evaluation = dict(interval=1, metric=['bbox', 'segm'])
-device_ids = range(8)
+device_ids = range(4)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/discobox_voc_r101_fpn_6x'
+work_dir = './work_dirs/discobox_r101_fpn_3x_voc/'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]

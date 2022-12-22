@@ -1,3 +1,4 @@
+
 fp16 = dict(loss_scale=512.)
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
                     std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -162,8 +163,8 @@ lr_config = dict(
     policy='step',
     warmup='linear',
     warmup_iters=2000,
-    warmup_ratio=0.001,
-    step=[54, 66])
+    warmup_ratio=0.01,
+    step=[33, 35])
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
@@ -174,12 +175,12 @@ log_config = dict(
     ])
 # yapf:enable
 # runtime settings
-runner = dict(type='EpochBasedRunner', max_epochs=72)
+runner = dict(type='EpochBasedRunner', max_epochs=36)
 evaluation = dict(interval=1, metric=['bbox', 'segm'])
-device_ids = range(8)
+device_ids = range(4)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/discobox_voc_r50_6x'
+work_dir = './work_dirs/discobox_r50_fpn_3x_voc/'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]
