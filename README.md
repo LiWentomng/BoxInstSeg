@@ -26,7 +26,7 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 - [x] [BoxInst (CVPR2021)](https://arxiv.org/abs/2012.02310)
 - [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
-- [ ] [Box2Mask](https://arxiv.org/pdf/2212.01579.pdf) (to be released)
+- [x] [Box2Mask](https://arxiv.org/pdf/2212.01579.pdf)
 
 **_More  models and datasets are under preparation, which are coming as soon as possible._**
 
@@ -39,8 +39,8 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 |   BoxInst       | R-101     |  8  | [model](https://drive.google.com/file/d/1tlXLL5Ba9_o5V7zn18KZPCIyEJdpZFV1/view?usp=sharing)   |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_coco.py)   |     33.1      |          33.0          |
 |   DiscoBox      | R-50     |  8 | [model](https://drive.google.com/file/d/1ifhmjXbFCBsn6wLBeOM6BWOm11LDmecr/view?usp=sharing)   |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r50_fpn_3x.py)   |     32.2      |      31.4(wo ms)       |
 |   DiscoBox      | R-101    |  8  | [model](https://drive.google.com/file/d/12yNKThkQK3yV8B5YHkkgyMOa0e5-uUpJ/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r101_fpn_3x.py)   |     33.4      |           --            |
-| Box2Mask-T      | R-50     |  8  | model                                                                                         |   50e   | config |               |                        |
-| Box2Mask-T      | R-101     |  8  | model                                                                                         |   50e   | config |               |                        |
+| Box2Mask-T      | R-50     |  8  | model                                                                                         |   50e   | [config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_coco.py) |          36.1     |                        |
+| Box2Mask-T      | R-101     |  8  | model                                                                                         |   50e   | [config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_coco.py) |         37.9     |                        |
 
 The above models are trained with `ms` to make a performance comparison.
 
@@ -51,8 +51,8 @@ The above models are trained with `ms` to make a performance comparison.
 |   BoxInst       | R-101     | 4| [model](https://drive.google.com/drive/folders/1QA9bSUnwtJ-pyuj_4pqHA9X64g3PbisT?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_voc.py)   |   34.2  | 62.4| 33.2 |
 |   DiscoBox       | R-50     | 4|[model](https://drive.google.com/file/d/1uNO_YVhGN5Kwbc8fjjtFCxULnRclZ_IW/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r50_fpn_3x.py)   |   32.9  | 61.0   |  31.5 |
 |   DiscoBox       | R-101     | 4| [model](https://drive.google.com/drive/folders/1JChdGB0mBjC4ypNuNxbCuIdjj4YY7GBv?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r101_fpn_3x.py)   |  34.6  |63.0  | 33.0 |
-|   Box2Mask-T      | R-50   | 4 |model     |   50e   |config   |     |  |  |
-|   Box2Mask-T      | R-101     | 4 |model |   50e    |config   |   |   |   |
+|   Box2Mask-T      | R-50   | 4 |model     |   50e   |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_voc.py)   | 38.0    | 65.9 | 38.2 |
+|   Box2Mask-T      | R-101     | 4 |model |   50e    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_voc.py)   |  39.6 |  66.6 | 40.9  |
 
 ## Installation and Getting Started
 This is built on the MMdetection (V2.25.0). Please refer to [Installation](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/install.md) and [Getting Started](https://github.com/LiWentomng/BoxInstSeg/blob/main/docs/get_started.md) for the details of installation and basic usage. We also recommend the user to refer the office [introduction](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md/#Installation) of MMdetection.
