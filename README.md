@@ -26,7 +26,7 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 - [x] [BoxInst (CVPR2021)](https://arxiv.org/abs/2012.02310)
 - [x] [DiscoBox (ICCV2021)](https://arxiv.org/abs/2105.06464v2)
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
-- [x] [Box2Mask](https://arxiv.org/pdf/2212.01579.pdf)
+- [x] [Box2Mask (arXiv2022)](https://arxiv.org/pdf/2212.01579.pdf)
 
 **_More  models and datasets are under preparation, which are coming as soon as possible._**
 
