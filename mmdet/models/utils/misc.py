@@ -70,3 +70,17 @@ def interpolate_as(source, target, mode='bilinear', align_corners=False):
         return source[:, 0, :, :]
     else:
         return _interpolate_as(source, target, mode, align_corners)
+
+
+def _scale_target(targets_, scaled_size=(96, 96)):
+    """ scale the targets to the scales size.
+
+    """
+
+    if targets_.dim() == 3:
+        targets = targets_.unsqueeze(1)
+    else:
+        targets = targets_
+    targets = F.interpolate(targets, size=scaled_size, mode='bilinear', align_corners=False)
+
+    return targets

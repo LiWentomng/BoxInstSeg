@@ -235,6 +235,7 @@ class IoUCost:
         return iou_cost * self.weight
 
 
+
 @MATCH_COST.register_module()
 class DiceCost:
     """Cost of mask assignments based on dice losses.
@@ -251,7 +252,7 @@ class DiceCost:
             Defaults to True.
     """
 
-    def __init__(self, weight=1., pred_act=False, eps=1e-3, naive_dice=False):
+    def __init__(self, weight=1., pred_act=False, eps=1e-3, naive_dice=True):
         self.weight = weight
         self.pred_act = pred_act
         self.eps = eps
@@ -268,10 +269,8 @@ class DiceCost:
         Returns:
             Tensor: Dice cost matrix in shape (num_query, num_gt).
         """
-
         mask_preds = mask_preds.flatten(1)
         gt_masks = gt_masks.flatten(1).float()
-
         numerator = 2 * torch.einsum('nc,mc->nm', mask_preds, gt_masks)
         if self.naive_dice:
             denominator = mask_preds.sum(-1)[:, None] + \
@@ -291,28 +290,9 @@ class DiceCost:
         Returns:
             Tensor: Dice cost matrix with weight in shape (num_query, num_gt).
         """
-
         if self.pred_act:
             mask_preds = mask_preds.sigmoid()
-
-        mask_pred_proj_x = mask_preds.max(dim=3, keepdim=True)[0]
-        gt_mask_proj_x = gt_masks.max(dim=3, keepdim=True)[0]
-
-        mask_pred_proj_y = mask_preds.max(dim=2, keepdim=True)[0]
-        gt_mask_proj_y = gt_masks.max(dim=2, keepdim=True)[0]
-
-        # import pdb
-        # pdb.set_trace()
-
-        # dice_cost = self.binary_mask_dice_loss(mask_preds, gt_masks)
-        dice_cost_x = self.binary_mask_dice_loss(mask_pred_proj_x, gt_mask_proj_x)
-        dice_cost_y = self.binary_mask_dice_loss(mask_pred_proj_y, gt_mask_proj_y)
-
-        # import pdb
-        # pdb.set_trace()
-
-        dice_cost = dice_cost_x + dice_cost_y
-
+        dice_cost = self.binary_mask_dice_loss(mask_preds, gt_masks)
         return dice_cost * self.weight
 
 
@@ -378,3 +358,68 @@ class CrossEntropyLossCost:
             raise NotImplementedError
 
         return cls_cost * self.weight
+
+
+
+@MATCH_COST.register_module()
+class BoxMatchingCost:
+
+    """Cost of predicted mask  and box gt assignments based on box projection loss.
+
+    Args:
+        weight (int | float, optional): loss_weight. Defaults to 1.
+        pred_act (bool, optional): Whether to apply sigmoid to mask_pred.
+            Defaults to False.
+        eps (float, optional): default 1e-12.
+        naive_dice (bool, optional): If True, use the naive dice loss
+            in which the power of the number in the denominator is
+            the first power. If Flase, use the second power that
+            is adopted by K-Net and SOLO.
+            Defaults to True.
+    """
+
+    def __init__(self, weight=1., pred_act=False, eps=1e-3):
+        self.weight = weight
+        self.pred_act = pred_act
+        self.eps = eps
+
+    def bin_dice_loss(self, mask_preds, gt_box_masks):
+
+        mask_preds = mask_preds.flatten(1)
+        gt_box_masks = gt_box_masks.flatten(1).float()
+
+        numerator = 2 * torch.einsum('nc,mc->nm', mask_preds, gt_box_masks)
+
+        denominator = mask_preds.pow(2).sum(1)[:, None] + \
+            gt_box_masks.pow(2).sum(1)[None, :]
+
+        loss = 1 - (numerator + self.eps) / (denominator + self.eps)
+
+        return loss
+
+    def __call__(self, mask_preds, gt_box_masks):
+        """
+        Args:
+            mask_preds (Tensor): Mask prediction logits in shape (num_query, *)
+            gt_box_masks (Tensor): Box-based Ground truth in shape (num_gt, *)
+
+        Returns:
+            Tensor: Cost matrix with weight in shape (num_query, num_gt).
+        """
+
+        if self.pred_act:
+            mask_preds = mask_preds.sigmoid()
+
+        # box projection on x
+        mask_pred_proj_x = mask_preds.max(dim=3, keepdim=True)[0]
+        gt_mask_proj_x = gt_box_masks.max(dim=3, keepdim=True)[0]
+        # box projection on y
+        mask_pred_proj_y = mask_preds.max(dim=2, keepdim=True)[0]
+        gt_mask_proj_y = gt_box_masks.max(dim=2, keepdim=True)[0]
+        # 1d dice loss
+        dice_cost_x = self.bin_dice_loss(mask_pred_proj_x, gt_mask_proj_x)
+        dice_cost_y = self.bin_dice_loss(mask_pred_proj_y, gt_mask_proj_y)
+
+        dice_cost = dice_cost_x + dice_cost_y
+
+        return dice_cost * self.weight

@@ -37,7 +37,7 @@ class MaskHungarianAssigner(BaseAssigner):
     def __init__(self,
                  cls_cost=dict(type='ClassificationCost', weight=1.0),
                  mask_cost=dict(
-                     type='FocalLossCost', weight=1.0, binary_input=True),
+                     type='FocalLossCost', weight=0.0, binary_input=True),
                  dice_cost=dict(type='DiceCost', weight=1.0)):
         self.cls_cost = build_match_cost(cls_cost)
         self.mask_cost = build_match_cost(mask_cost)

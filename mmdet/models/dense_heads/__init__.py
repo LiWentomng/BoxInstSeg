@@ -4,9 +4,10 @@ from .anchor_head import AnchorHead
 from .condinst_head import CondInstBoxHead, CondInstSegmHead, CondInstMaskBranch, CondInstMaskHead
 from .box_solov2_head import BoxSOLOv2Head
 from .discobox_head import DiscoBoxSOLOv2Head, DiscoBoxMaskFeatHead
+from .box2mask_head import Box2MaskHead
 
 __all__ = [
     'AnchorFreeHead', 'AnchorHead', 'CondInstBoxHead', 'CondInstMaskBranch',
     'CondInstMaskHead', 'CondInstSegmHead', 'BoxSOLOv2Head', 'DiscoBoxSOLOv2Head',
-    'DiscoBoxMaskFeatHead'
+    'DiscoBoxMaskFeatHead', 'Box2MaskHead'
 ]
