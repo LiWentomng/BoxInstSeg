@@ -5,9 +5,14 @@ It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
 The main branch works with Pytorch 1.6+ or higher (we recommend Pytorch **1.9.0**)
 
 
+## 
 https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-bbd6-b26d07c9b404.mp4
 
 
+## Update
+- **The codes of Box2mask are available.**
+
+## 
 #### Major features
 
 - **Support of instance segmentation with only box annotations**
