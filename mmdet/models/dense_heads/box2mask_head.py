@@ -14,7 +14,6 @@ from mmdet.models.utils import preprocess_panoptic_gt
 from mmdet.models.utils import _scale_target
 from ..builder import HEADS, build_loss
 from .anchor_free_head import AnchorFreeHead
-from .maskformer_head import MaskFormerHead
 from mmdet.ops.tree_filter.modules.tree_filter import MinimumSpanningTree, TreeFilter2D
 from mmcv.runner import force_fp32
 from mmdet.models.losses import LCM
