@@ -26,6 +26,8 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
 - [x] [Box2Mask (arXiv2022)](https://arxiv.org/pdf/2212.01579.pdf)
 
+ **_The pretrained model of Box2Mask are coming as soon as possible._**
+
 ### COCO (val)
 |     method      | Backbone | GPUs| Models                                                                                        | sched.  |config   | AP (this rep) | AP(original rep/paper) |
 |:---------------:|----------|-----------|-----------------------------------------------------------------------------------------------|:-------:|:-------:|:-------------:|:----------------------:|
@@ -39,7 +41,6 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 | Box2Mask-T      | R-101     |  8  | model                                                                                         |   50e   | [config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_coco.py) |         37.9     |                        |
 
 - The above models are trained with `ms` to make a performance comparison.
-- *_The pretrained model of Box2Mask are coming as soon as possible._*
 
 
 ### Pascal VOC 
