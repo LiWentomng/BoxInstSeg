@@ -1,4 +1,7 @@
 
+
+ **_Weclome the discussions and contributions._**
+
 ## Introduction
 **BoxInstSeg** is a toolbox that aims to provide state-of-the-art box-supervised instance segmentation algorithms. 
 It is built on top of [mmdetection](https://github.com/open-mmlab/mmdetection).
