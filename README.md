@@ -61,6 +61,8 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 |   Box2Mask-T      | R-50   | 4 |model     |   50e   |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_voc.py)   | 38.0    | 65.9 | 38.2 |
 |   Box2Mask-T      | R-101     | 4 |model |   50e    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_voc.py)   |  39.6 |  66.6 | 40.9  |
 
+- **Pascal VOC** is the extension of the training set of VOC 2012 with SBD.
+   The link of whole dataset with coco json format is [here](https://drive.google.com/file/d/16Mz13NSZBbhwPuRxiwi7ZA2Qvt9DaKtN/view?usp=sharing)(GoogleDrive)
 
 
 ## Installation and Getting Started
