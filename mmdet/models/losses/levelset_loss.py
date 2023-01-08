@@ -73,7 +73,7 @@ def LCM(imgs, pred_phis, box_targets):
     lcm = LocalConsistencyModule(num_iter=10, dilations=[2]).to(pred_phis.device)
     refine_phis = lcm(imgs, pred_phis)
     local_consist = (torch.abs(refine_phis - pred_phis) * box_targets).sum()
-    local_regions = box_targets.sum()
+    local_regions = box_targets.sum().clamp(min=1)
     return local_consist / local_regions
 
 
