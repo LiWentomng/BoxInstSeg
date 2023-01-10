@@ -73,7 +73,7 @@ Note: The visual results is in `show-dir`.
 
 # Data preparation
 
-1. **Pascal VOC**(Augmented) is the extension of the training set of VOC 2012 with SBD follwing [BBTP](https://github.com/chengchunhsu/WSIS_BBTP) 
+1. **Pascal VOC**(Augmented) is the extension of the training set of VOC 2012 with SBD following [BBTP](https://github.com/chengchunhsu/WSIS_BBTP) 
    The link of whole dataset with coco json format is [here](https://drive.google.com/file/d/16Mz13NSZBbhwPuRxiwi7ZA2Qvt9DaKtN/view?usp=sharing)(GoogleDrive)
 
 More dataset will be updated.
