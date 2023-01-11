@@ -31,7 +31,8 @@
 
     ```shell
     pip install -U openmim
-    mim install mmcv-full==2.25.0
+    mim install mmdet==2.25.0
+    mim install mmcv-full==1.5.0
    ```
 
 4. Clone the this repository.
