@@ -1255,7 +1255,7 @@ class DiscoBoxSOLOv2Head(BaseModule):
         num_ins = flatten_ins_ind_labels.sum()
 
 
-        # This code segmentation is for weakly supervised semantic correspondence
+        #weakly supervised semantic correspondence
 
         # dice loss
         loss_ins = []

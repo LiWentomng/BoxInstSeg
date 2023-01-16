@@ -48,8 +48,6 @@ def nms_with_others(multi_bboxes,
         raise NotImplementedError
 
     valid_mask = scores > score_thr
-    # multiply score_factor after threshold to preserve more bboxes, improve
-    # mAP by 1% for YOLOv3
     if score_factors is not None:
         # expand the shape to match original shape of score
         score_factors = score_factors.view(-1, 1).expand(
@@ -57,7 +55,6 @@ def nms_with_others(multi_bboxes,
         score_factors = score_factors.reshape(-1)
         scores = scores * score_factors
 
-    # NonZero not supported  in TensorRT
     inds = valid_mask.nonzero(as_tuple=False).squeeze(1)
     bboxes = bboxes[inds]
     scores = scores[inds]
@@ -188,8 +185,6 @@ def get_original_image(img, img_meta):
 
     return original_img
 
-    # cv2.imwrite("show/cv_{}".format(img_meta["filename"].split("/")[-1]), original_img)
-    # Image.fromarray(original_img).save("show/pil_{}".format(img_meta["filename"].split("/")[-1]))
 
 
 def unfold_wo_center(x, kernel_size, dilation):

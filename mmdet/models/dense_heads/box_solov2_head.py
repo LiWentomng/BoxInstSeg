@@ -465,7 +465,7 @@ class BoxSOLOv2Head(BaseModule):
                         label = int(i * num_grid + j)
                         ins_label[label, :seg_mask.shape[0], :seg_mask.shape[1]] = seg_mask
                         ins_ind_label[label] = True
-                        # print('ins_label', ins_label.shape)
+
             ins_label_list.append(ins_label)
             cate_label_list.append(cate_label)
             ins_ind_label_list.append(ins_ind_label)

@@ -34,7 +34,6 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 - [x] [BoxLevelset (ECCV2022)](https://arxiv.org/abs/2207.09055)
 - [x] [Box2Mask (arXiv2022)](https://arxiv.org/pdf/2212.01579.pdf)
 
- **_The pretrained model of Box2Mask are coming as soon as possible._**
 
 ### COCO (val)
 |     method      | Backbone | GPUs| Models                                                                                        | sched.  |config   | AP (this rep) | AP(original rep/paper) |

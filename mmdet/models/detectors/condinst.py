@@ -10,7 +10,8 @@ from mmdet.core.visualization.image import imshow_det_bboxes
 
 @DETECTORS.register_module()
 class CondInst(SingleStageDetector):
-    """Implementation of `CondInst <https://arxiv.org/abs/2003.05664>`_"""
+    """Implementation of `CondInst <https://arxiv.org/abs/2003.05664>
+    and BoxInst <https://arxiv.org/abs/2012.02310> `_"""
 
     def __init__(self,
                  backbone,
