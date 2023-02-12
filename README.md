@@ -46,8 +46,10 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 |   DiscoBox      | R-101    |  8  | [model](https://drive.google.com/file/d/12yNKThkQK3yV8B5YHkkgyMOa0e5-uUpJ/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_coco_r101_fpn_3x.py)   |     33.4      |           --            |
 | Box2Mask-T      | R-50     |  8  | [model](https://drive.google.com/file/d/1KFJabXdGodgcO-GerNpJkgyZX9whnNYe/view?usp=sharing)                                                                                         |   50e   | [config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_coco.py) |          35.9     |    36.1       |
 | Box2Mask-T      | R-101     |  8  | [model](https://drive.google.com/file/d/120L2hn7MZChc1ZaCcH37bjYe6d3sN2Op/view?usp=sharing)                                                                                         |   50e   | [config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_coco.py) |        38.2          |   37.9                     |
+| Box2Mask-T      | Swin-L     |  8  | [model](https://drive.google.com/file/d/1EKa4cna_A0ec-HFL8jli_FCqXSZ3bWhV/view?usp=sharing)                                                                                         |   50e   | config |        41.9/42.5          |   41.3/42.4                    |
 
 - The above models are trained with `ms` to make a performance comparison.
+- The results format of `a/b` is on `val/test-dev` set.
 
 
 ### Pascal VOC 
