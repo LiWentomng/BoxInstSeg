@@ -28,27 +28,20 @@ class region_levelset(nn.Module):
 
     def forward(self, mask_score, lst_target):
         '''
-        mask_score: predcited mask scores        tensor:(N,C,W,H)
-        lst_target:  input target for levelset   tensor:(N,C,W,H)
+        mask_score: predcited mask scores        tensor:(N,2,W,H) 
+        lst_target:  input target for levelset   tensor:(N,C,W,H) 
         '''
-        mask_score_shape = mask_score.shape
-        lst_target_shape = lst_target.shape
-        level_set_loss = 0.0
+        
+        mask_score_f = mask_score[:, 0, :, :].unsqueeze(1)
+        mask_score_b = mask_score[:, 1, :, :].unsqueeze(1)
+        interior_ = torch.sum(mask_score_f * lst_target, (2, 3)) / torch.sum(mask_score_f, (2, 3)).clamp(min=0.00001)
+        exterior_ = torch.sum(mask_score_b * lst_target, (2, 3)) / torch.sum(mask_score_b, (2, 3)).clamp(min=0.00001)
+        interior_region_level = torch.pow(lst_target - interior_.unsqueeze(-1).unsqueeze(-1), 2)
+        exterior_region_level = torch.pow(lst_target - exterior_.unsqueeze(-1).unsqueeze(-1), 2)
+        region_level_loss = interior_region_level*mask_score_f + exterior_region_level*mask_score_b
+        level_set_loss = torch.sum(region_level_loss, (1, 2, 3))/lst_target.shape[1]
 
-        for i in range(lst_target_shape[1]):
-
-            lst_target_ = torch.unsqueeze(lst_target[:, i], 1)
-            lst_target_ = lst_target_.expand(lst_target_shape[0], mask_score_shape[1], lst_target_shape[2], lst_target_shape[3])
-            ave_similarity = torch.sum(lst_target_ * mask_score, (2, 3)) / (torch.sum(mask_score, (2, 3))).clamp(min=0.00001)
-            ave_similarity = ave_similarity.view(lst_target_shape[0], mask_score_shape[1], 1, 1)
-
-            region_level = lst_target_ - ave_similarity.expand(lst_target_shape[0], mask_score_shape[1],
-                                                                               lst_target_shape[2], lst_target_shape[3])
-
-            region_level_loss = region_level * region_level * mask_score
-            level_set_loss += torch.sum(region_level_loss, dim=(1,2,3))
-
-        return level_set_loss / lst_target_shape[1]
+        return level_set_loss
 
 
 class length_regularization(nn.Module):
