@@ -128,7 +128,7 @@ class LocalConsistencyModule(nn.Module):
 
         for _ in range(self.num_iter):
             _pred_phis = self.get_dilated_neighbors(pred_phis)
-            refine_phis = (_pred_phis * aff).sum(2)
+            pred_phis = (_pred_phis * aff).sum(2)
 
-        return refine_phis
+        return pred_phis
 
