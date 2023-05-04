@@ -59,8 +59,8 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 |   BoxInst       | R-101     | 4| [model](https://drive.google.com/drive/folders/1QA9bSUnwtJ-pyuj_4pqHA9X64g3PbisT?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/boxinst/boxinst_r101_fpn_3x_voc.py)   |   34.2  | 62.4| 33.2 |
 |   DiscoBox       | R-50     | 4|[model](https://drive.google.com/file/d/1uNO_YVhGN5Kwbc8fjjtFCxULnRclZ_IW/view?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r50_fpn_3x.py)   |   32.9  | 61.0   |  31.5 |
 |   DiscoBox       | R-101     | 4| [model](https://drive.google.com/drive/folders/1JChdGB0mBjC4ypNuNxbCuIdjj4YY7GBv?usp=sharing)     |   3x    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/discobox/discobox_solov2_voc_r101_fpn_3x.py)   |  34.6  |63.0  | 33.0 |
-|   Box2Mask-T      | R-50   | 4 |model     |   50e   |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_voc.py)   | 38.0    | 65.9 | 38.2 |
-|   Box2Mask-T      | R-101     | 4 |model |   50e    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_voc.py)   |  39.6 |  66.6 | 40.9  |
+|   Box2Mask-T      | R-50   | 4 |model     |   50e   |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r50_lsj_8x2_50e_voc.py)   | 41.4    | 68.9 | 42.1 |
+|   Box2Mask-T      | R-101     | 4 |model |   50e    |[config](https://github.com/LiWentomng/BoxInstSeg/blob/main/configs/box2mask/box2mask_r101_lsj_8x2_50e_voc.py)   |  43.2 |  70.8 | 44.4  |
 
 - **Pascal VOC** is the extension of the training set of VOC 2012 with SBD.
    The link of whole dataset with coco json format is [here](https://drive.google.com/file/d/16Mz13NSZBbhwPuRxiwi7ZA2Qvt9DaKtN/view?usp=sharing)(GoogleDrive)
