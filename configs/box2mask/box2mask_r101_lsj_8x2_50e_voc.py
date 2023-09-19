@@ -1,6 +1,9 @@
 _base_ = [
     '../_base_/datasets/coco_panoptic.py', '../_base_/default_runtime.py'
 ]
+num_thing_classes = 20
+num_stuff_classes = 0
+num_classes = num_thing_classes + num_stuff_classes
 
 model = dict(
     type='Box2Mask',
@@ -20,8 +23,8 @@ model = dict(
         strides=[4, 8, 16, 32],
         feat_channels=256,
         out_channels=256,
-        num_things_classes=20,
-        num_stuff_classes=0,
+        num_things_classes=num_thing_classes,
+        num_stuff_classes=num_stuff_classes,
         num_queries=100,
         num_transformer_feat_level=3,
         pixel_decoder=dict(
@@ -91,7 +94,7 @@ model = dict(
             use_sigmoid=False,
             loss_weight=2.0,
             reduction='mean',
-            class_weight=[1.0] * 20 + [0.1]),
+            class_weight=[1.0] * num_classes + [0.1]),
         loss_mask=dict(
             type='LevelsetLoss',
             loss_weight=1.0),
@@ -100,8 +103,8 @@ model = dict(
             loss_weight=5.0)),
     panoptic_fusion_head=dict(
         type='MaskFormerFusionHead',
-        num_things_classes=20,
-        num_stuff_classes=0,
+        num_things_classes=num_thing_classes,
+        num_stuff_classes=num_stuff_classes,
         loss_panoptic=None,
         init_cfg=None),
     train_cfg=dict(
