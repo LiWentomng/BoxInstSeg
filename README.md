@@ -23,6 +23,7 @@ https://user-images.githubusercontent.com/32033843/207869884-5254b2ba-5e3d-44fb-
 
 
 ## Update
+- 🔥**The codes of [APro](https://arxiv.org/pdf/2310.10533.pdf)[NeurIPS2023] are available in [APro](https://github.com/CircleRadon/APro), which is based on BoxInstSeg.**
 - **The codes of Box2mask are available.**
  
 
