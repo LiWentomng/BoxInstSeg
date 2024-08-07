@@ -650,7 +650,7 @@ class GenerateBoxMask(object):
         pass
 
     def _generate_mask_from_box(self, results):
-        gtboxes = results['gt_bboxes'].round().astype(np.int)
+        gtboxes = results['gt_bboxes'].round().astype(int)
         gt_masks = np.zeros((len(gtboxes), *results['img'].shape[:2]), dtype=np.uint8)
         for i, gtbox in enumerate(gtboxes):
             rx0, ry0, rx1, ry1 = gtbox[0], gtbox[1], gtbox[2], gtbox[3]
